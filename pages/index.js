@@ -40,7 +40,8 @@ export default function Home() {
   function hideDialog(){
     const dialog = document.getElementById("addDialog");
 
-    subjects.filter(subject => subject.title === selectedSubject)[0].tasks.push({title: taskTitle, date: selectedDate, checked: false})
+    const selectedDateFormatted = new Date(selectedDate);
+    subjects.filter(subject => subject.title === selectedSubject)[0].tasks.push({title: taskTitle, date: selectedDateFormatted, checked: false})
 
     setTaskTitle("")
     setSelectedSubject(subjectNames[0])
@@ -55,11 +56,10 @@ export default function Home() {
         </select>
         <input value={taskTitle} onChange={(event)=>setTaskTitle(event.target.value)}></input>
         <input value={selectedDate} type="date" onChange={(event)=>setSelectedDate(event.target.value)}></input>
-        <button onClick={hideDialog}>Hinzuf&uuml;gen</button>
+        <button class="submit" onClick={hideDialog}>Hinzuf&uuml;gen</button>
       </dialog>
-      <button onClick={showDialog}>+</button>
+      <button class="additem" onClick={showDialog}>+</button>
       <div className="main">
-        <div className="search">Suchbar</div>
         <div className="subjects">
           {subjects.map(subject => <Subject title={subject.title} tasks={subject.tasks}></Subject>)}
         </div>
