@@ -1,21 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.search {
+  height: 10%;
+}
+.subjects {
+  height: 90%;
+  border: 1px solid gray;
+}
+.subject {
+  display: flex;
+}
+.subjectname {
+  display: flex;
+  align-items: center;
+  padding-left: 9px;
+  padding-right: 9px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.expired {
+  font-weight: bold;
+  text-decoration: underline;
 }
