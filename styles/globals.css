@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet');
+
 body {
 height: 100vh;
 }
 
 main {
-  font-family: "Open Sans";
   font-size: 1.5em;
 }
 .search {
@@ -16,24 +16,30 @@ main {
 }
 .subjects {
   height: 90%;
+  width: 75%;
   outline: 2px solid gray;
   border-radius: 4px;
 }
 .subject {
   margin-top: -2px;
   display: flex;
-  border-bottom: 1.5px solid gray;
+  border-bottom: 2px solid gray;;
 }
+
+.subject:last-child {
+  border: none;
+}
+
 .subjectname {
   display: flex;
   align-items: center;
   padding-left: 9px;
   padding-right: 9px;
+  width: 20%;
 }
 
 .expired {
-  font-weight: bold;
-  text-decoration: underline;
+ width: 15px;
 }
 
 .additem {
@@ -43,12 +49,23 @@ main {
   vertical-align: center;
 }
 
+.checkbox {
+  margin-right: 8px;
+}
+
 .checkbox:checked + label {
   color: gray;
+  text-decoration: line-through;
 }
 
 .dialog {
   top: 50%;
+}
+
+.task {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .datepicker {
