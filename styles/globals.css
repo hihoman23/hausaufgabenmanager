@@ -8,13 +8,13 @@ main {
 }
 .subjects {
   height: 90%;
-  border: 1px solid gray;
-  border-bottom: none;
+  outline: 2px solid gray;
+  border-radius: 4px;
 }
 .subject {
-  margin-top: -1px;
+  margin-top: -2px;
   display: flex;
-  border-bottom: 1px solid gray;
+  border-bottom: 1.5px solid gray;
 }
 .subjectname {
   display: flex;
@@ -43,3 +43,6 @@ button {
   vertical-align: center;
 }
 
+.checkbox:checked + label {
+  color: gray;
+}

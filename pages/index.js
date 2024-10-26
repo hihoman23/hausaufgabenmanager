@@ -2,33 +2,16 @@ import { getPermission, sendNotification } from "@/helper/notifier";
 import localFont from "next/font/local";
 import { useEffect, useState } from "react";
 
-let subjectNum = 0;
-let subjects = [
-  {
-    title: "Mathe",
-    tasks: [
-      {
-        title: "S. 33/14",
-        date: new Date(2024, 9, 26),
-        checked: true,
-        alarmed: false
-      }
-    ]
-  },
-  {
-    title: "Bio",
-    tasks: [
-      {
-        title: "S. 33 lesen",
-        date: new Date(2024, 9, 27), // Month: Oct == 9
-        checked: false,
-        alarmed: false
-      }
-    ]
-  }
-]
+const subjectNames = ["Mathe", "Bio", "Phy", "Deu", "Eng", "Fra", "Chem", "Mu", "Sp"]
 
-const subjectNames = subjects.map(subject => subject.title)
+function makeSubject(name) {
+  this.title = name;
+  this.tasks = [];
+}
+
+let subjects = subjectNames.map(name => new makeSubject(name))
+
+let subjectNum = 0;
 
 export default function Home() {
   const [taskTitle, setTaskTitle] = useState("")
@@ -46,12 +29,12 @@ export default function Home() {
   function hideDialog(){
     const dialog = document.getElementById("addDialog");
 
-    const selectedDateFormatted = new Date(selectedDate);
+    const selectedDateFormatted = new Date(selectedDate + " 0:0:0");
     subjects.filter(subject => subject.title === selectedSubject)[0].tasks.push({title: taskTitle, date: selectedDateFormatted, checked: false})
 
     setTaskTitle("")
     setSelectedSubject(subjectNames[0])
-    setSelectedDate(Date.now())
+    setSelectedDate(new Date())
     dialog.close()
   }
   return (
@@ -67,7 +50,7 @@ export default function Home() {
       <button class="additem" onClick={showDialog}>+</button>
       <div className="main">
         <div className="subjects">
-          {subjects.map(subject => <Subject title={subject.title} tasks={subject.tasks}></Subject>)}
+          {subjects.map(subject => (subject.tasks.length !== 0) ? <Subject title={subject.title} tasks={subject.tasks}></Subject>: "")}
         </div>
       </div>
     </main>
@@ -115,8 +98,8 @@ export function Subject(props) {
     <div className="tasks">
         {props.tasks.map(task => 
           <div className="task">
-            <input id={generateID()}onChange={event => saveSwitchState(event.target.checked, task)} type="checkbox"/>
-            <label for={"a"+subjectNum} className={(isExpired(task.date) ? "expired" : "")+(task.checked ? "checked": "")}>{task.title}</label>
+            <input className="checkbox" id={generateID()} onChange={event => saveSwitchState(event.target.checked, task)} type="checkbox"/>
+            <label for={"a"+subjectNum} className={(isExpired(task.date) ? "expired" : "")}>{task.title}</label>
           </div>
         )}
     </div>
