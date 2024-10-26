@@ -17,7 +17,7 @@ export function getPermission(window) {
   
   
 export function sendNotification(task) {
-    const notifTitle = "Hausaufgabe bis morgen!";
+    const notifTitle = "Hausaufgabe sind fällig!";
     const notifBody = task.title;
     const options = {
       body: notifBody,

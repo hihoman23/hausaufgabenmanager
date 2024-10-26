@@ -1,6 +1,8 @@
+import { getPermission, sendNotification } from "@/helper/notifier";
 import localFont from "next/font/local";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+let subjectNum = 0;
 let subjects = [
   {
     title: "Mathe",
@@ -8,7 +10,7 @@ let subjects = [
       {
         title: "S. 33/14",
         date: new Date(2024, 9, 26),
-        checked: false,
+        checked: true,
         alarmed: false
       }
     ]
@@ -32,6 +34,10 @@ export default function Home() {
   const [taskTitle, setTaskTitle] = useState("")
   const [selectedSubject, setSelectedSubject] = useState(subjectNames[0])
   const [selectedDate, setSelectedDate] = useState(new Date())
+
+  useEffect (() => {
+    getPermission(window)
+  }, [])
 
   function showDialog(){
     const dialog = document.getElementById("addDialog");
@@ -75,14 +81,18 @@ function isExpired(taskDate) {
 } 
 
 function checkForDeadline() {
+  let expired = false
   for (let i = 0; i < subjects.length; i++) {
     const tasks = subjects[i].tasks
     for (let j = 0; j < tasks.length; j++) {
       if (isExpired(tasks[j].date) && !tasks[j].checked && !tasks[j].alarmed) {
+        expired = true
         tasks[j].alarmed = true
-        alert("alarm")
       }
     }
+  }
+  if (expired) {
+    sendNotification(tasks[j])
   }
 }
 
@@ -91,9 +101,12 @@ setInterval(checkForDeadline, 10000)
 export function Subject(props) {
 
   function saveSwitchState(newState, task) {
-    const isToggled = newState == "on"
-    console.log(isToggled)
-    //task.checked = isToggled
+    task.checked = newState
+  }
+
+  function generateID() {
+    subjectNum++;
+    return "a"+subjectNum
   }
 
   return (
@@ -102,8 +115,8 @@ export function Subject(props) {
     <div className="tasks">
         {props.tasks.map(task => 
           <div className="task">
-            <input onChange={event => saveSwitchState(event.target.value, task)} type="checkbox"/>
-            <span className={isExpired(task.date) ? "expired" : ""}>{task.title}</span>
+            <input id={generateID()}onChange={event => saveSwitchState(event.target.checked, task)} type="checkbox"/>
+            <label for={"a"+subjectNum} className={(isExpired(task.date) ? "expired" : "")+(task.checked ? "checked": "")}>{task.title}</label>
           </div>
         )}
     </div>
