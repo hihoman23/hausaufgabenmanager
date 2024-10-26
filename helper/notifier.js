@@ -16,9 +16,9 @@ export function getPermission(window) {
 }
   
   
-export function sendNotification(task) {
+export function sendNotification() {
     const notifTitle = "Hausaufgabe sind fällig!";
-    const notifBody = task.title;
+    const notifBody = "Hier clicken um anzuzeigen";
     const options = {
       body: notifBody,
     };

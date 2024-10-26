@@ -92,7 +92,7 @@ function checkForDeadline() {
     }
   }
   if (expired) {
-    sendNotification(tasks[j])
+    sendNotification()
   }
 }
 
