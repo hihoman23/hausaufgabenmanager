@@ -1,6 +1,6 @@
 import { getPermission, sendNotification } from "@/helper/notifier";
-import localFont from "next/font/local";
 import { useEffect, useState } from "react";
+import Image from 'next/image'
 
 const subjectNames = ["Mathe", "Bio", "Phy", "Deu", "Eng", "Fra", "Chem", "Mu", "Sp"]
 
@@ -14,6 +14,7 @@ let subjects = subjectNames.map(name => new makeSubject(name))
 let subjectNum = 0;
 
 export default function Home() {
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [taskTitle, setTaskTitle] = useState("")
   const [selectedSubject, setSelectedSubject] = useState(subjectNames[0])
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -24,11 +25,12 @@ export default function Home() {
 
   function showDialog(){
     const dialog = document.getElementById("addDialog");
+    setDialogOpen(true)
     dialog.show()
   }
   function hideDialog(){
     const dialog = document.getElementById("addDialog");
-
+    setDialogOpen(false)
     const selectedDateFormatted = new Date(selectedDate + " 0:0:0");
     subjects.filter(subject => subject.title === selectedSubject)[0].tasks.push({title: taskTitle, date: selectedDateFormatted, checked: false})
 
@@ -38,22 +40,45 @@ export default function Home() {
     dialog.close()
   }
   return (
-    <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-      <dialog id="addDialog">
-        <select value={selectedSubject} onChange={(event) => setSelectedSubject(event.target.value)}>
-          {subjectNames.map(subjectName => <option value={subjectName}>{subjectName}</option>)}
-        </select>
-        <input value={taskTitle} onChange={(event)=>setTaskTitle(event.target.value)}></input>
-        <input value={selectedDate} type="date" onChange={(event)=>setSelectedDate(event.target.value)}></input>
-        <button class="submit" onClick={hideDialog}>Hinzuf&uuml;gen</button>
-      </dialog>
-      <button class="additem" onClick={showDialog}>+</button>
+    <div style={{height: '100vh'}}>
+    <div className="flex flex-start justify-between p-4">
+    <div className="ml-4 mt-4">
+    <Image
+      src="/logo.png"
+      width={150}
+      height={110}
+      alt="Logo"
+    />
+    </div>
+    <div className="flex flex-center items-center">
+      <span className="text-xl">Hausaufgaben-Manager</span>
+    </div>
+    <div style={{width: '150px'}}></div>
+    </div>
+    <main className={`flex flex-col gap-8 row-start-2 items-center`}>
+      <button class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2" 
+      onClick={showDialog}>
+       <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+       Aufgabe hinzuf&uuml;gen
+      </button>
       <div className="main">
         <div className="subjects">
           {subjects.map(subject => (subject.tasks.length !== 0) ? <Subject title={subject.title} tasks={subject.tasks}></Subject>: "")}
         </div>
       </div>
+      <dialog id="addDialog">
+        <div className="border-2 flex flex-col p-12 rounded-md space-y-4 bg-slate-300">
+          <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          value={selectedSubject} onChange={(event) => setSelectedSubject(event.target.value)}>
+            {subjectNames.map(subjectName => <option value={subjectName}>{subjectName}</option>)}
+          </select>
+          <input value={taskTitle} onChange={(event)=>setTaskTitle(event.target.value)} type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Aufgabe" required />
+          <input class="datepicker" value={selectedDate} type="date" onChange={(event)=>setSelectedDate(event.target.value)}></input>
+          <button onClick={hideDialog} type="button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Hinzuf&uuml;gen</button>
+        </div>
+      </dialog>
     </main>
+    </div>
   );
 }
 
@@ -94,7 +119,7 @@ export function Subject(props) {
 
   return (
     <div className="subject">
-    <div className="subjectname"><span>{props.title}</span></div> 
+    <div className="subjectname"><span className="text-3xl">{props.title}</span></div> 
     <div className="tasks">
         {props.tasks.map(task => 
           <div className="task">

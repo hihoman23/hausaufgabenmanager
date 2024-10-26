@@ -1,4 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet');
+body {
+height: 100vh;
+}
+
 main {
   font-family: "Open Sans";
   font-size: 1.5em;
@@ -28,14 +36,6 @@ main {
   text-decoration: underline;
 }
 
-button {
-  background-color: orange;
-  color: gray;
-  border-radius: 3px;
-  border: 2px solid gray;
-  margin: 5px;
-}
-
 .additem {
   width: 70px;
   height: 40px;
@@ -45,4 +45,18 @@ button {
 
 .checkbox:checked + label {
   color: gray;
+}
+
+.dialog {
+  top: 50%;
+}
+
+.datepicker {
+  background-color: #373C50;
+  color: white;
+  font-size: large;
+  color-scheme: dark;
+  height: 40px;
+  padding: 4px; 
+  border-radius: 5px;
 }
