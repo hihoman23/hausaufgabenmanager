@@ -9,7 +9,7 @@ export function getPermission(window) {
       Notification.requestPermission().then((permission) => {
         // If the user accepts, let's create a notification
         if (permission === "granted" && previousPermission === 'default') {
-          const notification = new Notification("Jetzt informiert bleiben!");
+          new Notification("Jetzt informiert bleiben!");
         }
       });
     }
@@ -21,6 +21,7 @@ export function sendNotification() {
     const notifBody = "Hier clicken um anzuzeigen";
     const options = {
       body: notifBody,
+      icon: './logo.png'
     };
     new Notification(notifTitle, options);
   }
