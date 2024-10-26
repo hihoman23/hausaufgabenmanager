@@ -71,6 +71,17 @@ export default function Home() {
     setDialogOpen(true)
     dialog.show()
   }
+
+  function closeDialog() {
+    const dialog = document.getElementById("addDialog");
+    setDialogOpen(false)
+    setTaskTitle("")
+    setSelectedSubject(subjectNames[0])
+    setSelectedDate(new Date())
+    dialog.close()
+
+  }
+
   function hideDialog(){
     const dialog = document.getElementById("addDialog");
     setDialogOpen(false)
@@ -117,7 +128,11 @@ export default function Home() {
       </div>
 
       <dialog id="addDialog">
+        
         <div className="border-2 flex flex-col p-12 rounded-md space-y-4 bg-slate-300">
+        <div onClick={closeDialog} className="cancel">
+        <svg fill="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+        </div>
           <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           value={selectedSubject} onChange={(event) => setSelectedSubject(event.target.value)}>
             {subjectNames.map(subjectName => <option value={subjectName}>{subjectName}</option>)}
