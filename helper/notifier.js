@@ -21,6 +21,7 @@ export function sendNotification() {
     const notifBody = "Hier clicken um anzuzeigen";
     const options = {
       body: notifBody,
+      icon: './logo.png'
     };
     new Notification(notifTitle, options);
   }
