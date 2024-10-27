@@ -70,8 +70,6 @@ main {
 }
 
 .datepicker {
-  background-color: #373C50;
-  color: white;
   font-size: large;
   height: 40px;
   padding: 4px; 
@@ -90,10 +88,10 @@ main {
   justify-content: end;
 }
 
-.cancel:hover{
+.cancel svg:hover, .deletetask:hover{
   cursor:pointer
 }
 
-.cancel svg{
-  width: 20px;
+.cancel svg, .deletetask{
+  width: 15px;
 }
