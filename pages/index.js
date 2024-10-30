@@ -164,16 +164,32 @@ function isExpired(taskDate) {
   return (taskDate <= tomorrow)
 } 
 
+function deleteTask(tasks, task) {
+  const taskIndex = tasks.indexOf(task)
+  if (taskIndex > -1) {
+    tasks.splice(taskIndex, 1);
+  }
+  forceUpdate()
+}
+
 function checkForDeadline() {
   let expired = false
+  let toDelete = []
   for (let i = 0; i < subjects.length; i++) {
     const tasks = subjects[i].tasks
     for (let j = 0; j < tasks.length; j++) {
       if (isExpired(tasks[j].date) && !tasks[j].checked && !tasks[j].alarmed) {
-        expired = true
-        tasks[j].alarmed = true
+        if (tasks[j].date < new Date()) {
+          toDelete.push({tasks: tasks, task: tasks[j]})
+        } else {
+          expired = true
+          tasks[j].alarmed = true
+        }
       }
     }
+  }
+  for (let i = 0; i < toDelete.length; i++) {
+    deleteTask(toDelete[i].tasks, toDelete[i].task)
   }
   if (expired) {
     sendNotification()
@@ -182,13 +198,6 @@ function checkForDeadline() {
 
 setInterval(checkForDeadline, 10000)
 
-function deleteTask(tasks, task) {
-  const taskIndex = tasks.indexOf(task)
-  if (taskIndex > -1) {
-    tasks.splice(taskIndex, 1);
-  }
-  forceUpdate()
-}
 
 export function Subject(props) {
   
@@ -205,11 +214,10 @@ export function Subject(props) {
     <div className="subject">
     <div className="subjectname"><span className="text-xl">{props.title}</span></div> 
     <div className="tasks">
-      {props.tasks.map(task => 
+      {props.tasks.sort((task1, task2) => task1.date - task2.date).map(task => 
         <div className="task">
-          {console.log(task)}
           <input className="checkbox" id={generateID()} onChange={event => saveSwitchState(event.target.checked, task)} type="checkbox"/>
-          <label for={"a"+subjectNum}>{task.title}</label>
+          <label htmlFor={"a"+subjectNum}>{task.title}</label>
           {
             isExpired(task.date) &&
             <div className="expired">
